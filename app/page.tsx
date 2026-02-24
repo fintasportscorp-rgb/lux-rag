@@ -207,6 +207,7 @@ export default function Home() {
   const [lang, setLang] = useState<Lang>("en");
   const [notification, setNotification] = useState<string | null>(null);
   const [launchLabel, setLaunchLabel] = useState<string | null>(null);
+  const [activeStrategy, setActiveStrategy] = useState<number | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const focusRef = useRef<HTMLInputElement>(null);
   const t = dict[lang];
@@ -217,20 +218,28 @@ export default function Home() {
     setTimeout(() => setNotification(null), 2200);
   }, []);
 
+  const buildPrompt = useCallback((strategyIndex: number | null, focusQuery: string) => {
+    if (strategyIndex === null) {
+      return focusQuery ? `User focus:\n${focusQuery}` : "";
+    }
+    let tpl = baseTemplates[strategyIndex];
+    if (focusQuery) {
+      tpl = tpl.replace("{{FOCUS}}", focusQuery);
+    } else {
+      tpl = tpl.replace(/\nUser focus:\n\{\{FOCUS\}\}\n\n/, "\n");
+      tpl = tpl.replace(/ — centered on the user focus/g, "");
+      tpl = tpl.replace(/ — answering the focus/g, "");
+      tpl = tpl.replace(/ responding to focus/g, "");
+    }
+    return tpl;
+  }, []);
+
   /* set strategy */
   const setStrategy = useCallback(
     (n: number) => {
-      let tpl = baseTemplates[n];
+      setActiveStrategy(n);
       const q = focusRef.current?.value.trim() || "";
-
-      if (q) {
-        tpl = tpl.replace("{{FOCUS}}", q);
-      } else {
-        tpl = tpl.replace(/\nUser focus:\n\{\{FOCUS\}\}\n\n/, "\n");
-        tpl = tpl.replace(/ — centered on the user focus/g, "");
-        tpl = tpl.replace(/ — answering the focus/g, "");
-        tpl = tpl.replace(/ responding to focus/g, "");
-      }
+      const tpl = buildPrompt(n, q);
 
       if (textareaRef.current) {
         textareaRef.current.value = tpl;
@@ -243,8 +252,15 @@ export default function Home() {
         }
       }
     },
-    []
+    [buildPrompt]
   );
+
+  const handleFocusChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const q = e.target.value.trim();
+    if (textareaRef.current) {
+      textareaRef.current.value = buildPrompt(activeStrategy, q);
+    }
+  }, [activeStrategy, buildPrompt]);
 
   /* insert tag */
   const insertTag = useCallback((key: string) => {
@@ -463,6 +479,7 @@ export default function Home() {
             ref={focusRef}
             type="text"
             placeholder={t.focusPlaceholder}
+            onChange={handleFocusChange}
             style={{
               width: "100%",
               background: "#09090b",
