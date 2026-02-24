@@ -253,7 +253,8 @@ export default function Home() {
     const txt = ta.value;
     ta.value = txt.substring(0, s) + ins + txt.substring(e);
     ta.selectionStart = ta.selectionEnd = s + ins.length;
-    ta.focus();
+    const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+    if (!isTouchDevice) ta.focus();
   }, []);
 
   /* copy */
