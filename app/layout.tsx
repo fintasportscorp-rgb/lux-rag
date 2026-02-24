@@ -1,32 +1,13 @@
-import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
-import { Analytics } from '@vercel/analytics/next'
+import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
-const _geist = Geist({ subsets: ["latin"] });
-const _geistMono = Geist_Mono({ subsets: ["latin"] });
-
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
-  generator: 'v0.app',
-  icons: {
-    icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    apple: '/apple-icon.png',
-  },
+  title: 'Lux — TIAFT x NotebookLM Prompt Builder',
+  description: 'Illuminate. Ground. Reveal. A grounded NotebookLM RAG prompt builder for TIAFT 2026.',
+}
+
+export const viewport: Viewport = {
+  themeColor: '#0a0a0a',
 }
 
 export default function RootLayout({
@@ -36,10 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="font-sans antialiased">
-        {children}
-        <Analytics />
-      </body>
+      <body>{children}</body>
     </html>
   )
 }
