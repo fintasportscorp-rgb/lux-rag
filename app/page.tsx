@@ -234,10 +234,13 @@ export default function Home() {
 
       if (textareaRef.current) {
         textareaRef.current.value = tpl;
-        textareaRef.current.focus();
-        textareaRef.current.selectionStart =
-          textareaRef.current.selectionEnd =
-            textareaRef.current.value.length;
+        const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+        if (!isTouchDevice) {
+          textareaRef.current.focus();
+          textareaRef.current.selectionStart =
+            textareaRef.current.selectionEnd =
+              textareaRef.current.value.length;
+        }
       }
     },
     []
