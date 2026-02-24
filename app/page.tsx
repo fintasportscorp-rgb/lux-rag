@@ -306,12 +306,26 @@ export default function Home() {
       alert(t.noPrompt);
       return;
     }
-    console.clear();
-    console.log(`%c${t.consoleReady}`, "color:#10b981;font-weight:bold");
-    console.log(text);
-    setLaunchLabel(t.checkConsole);
-    setTimeout(() => setLaunchLabel(null), 3000);
-  }, [t]);
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(() => {
+        notify(t.copied);
+        window.open(
+          "https://notebooklm.google.com/notebook/2d66fc39-0a0a-4aa1-95ef-abce0248f22f?authuser=3",
+          "_blank"
+        );
+      }).catch(() => {
+        window.open(
+          "https://notebooklm.google.com/notebook/2d66fc39-0a0a-4aa1-95ef-abce0248f22f?authuser=3",
+          "_blank"
+        );
+      });
+    } else {
+      window.open(
+        "https://notebooklm.google.com/notebook/2d66fc39-0a0a-4aa1-95ef-abce0248f22f?authuser=3",
+        "_blank"
+      );
+    }
+  }, [t, notify]);
 
   /* keyboard shortcut */
   useEffect(() => {
