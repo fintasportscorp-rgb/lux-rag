@@ -1,9 +1,10 @@
-# Lux - TIAFT x NotebookLM Prompt Builder
+# Finta - AI finder
 
 ## Overview
-Lux is a grounded NotebookLM RAG prompt builder for TIAFT 2026. It helps users create structured prompts for analyzing AI tool data from "There Is an AI for That" CSV datasets within Google NotebookLM.
+Finta is an AI finder application. Originally a grounded NotebookLM RAG prompt builder for TIAFT 2026.
 
 ## Recent Changes
+- 2026-02-28: Rebranded to "Finta - AI finder", added favicon from logo zip
 - 2026-02-24: Initial Replit setup - configured Next.js for port 5000 with host proxy support
 
 ## Project Architecture

@@ -2,8 +2,11 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Lux — TIAFT x NotebookLM Prompt Builder',
-  description: 'Illuminate. Ground. Reveal. A grounded NotebookLM RAG prompt builder for TIAFT 2026.',
+  title: 'Finta - AI finder',
+  description: 'Finta - AI finder',
+  icons: {
+    icon: '/favicon-32x32.png',
+  },
 }
 
 export const viewport: Viewport = {
